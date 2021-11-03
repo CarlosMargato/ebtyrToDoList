@@ -6,10 +6,13 @@ const initialState = {
 
 };
 
-function reducer(state = initialState, { type }) {
+function reducer(state = initialState, { type, payload }) {
   switch (type) {
   case USERLOGIN:
-    return state;
+    return {
+      email: payload.email,
+      password: payload.password,
+    };
 
   default:
     return state;

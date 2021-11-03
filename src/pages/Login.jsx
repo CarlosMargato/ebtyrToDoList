@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { userLogin, USERLOGIN } from '../actions/index';
 
 class Login extends Component {
   constructor(props) {
@@ -28,6 +30,7 @@ class Login extends Component {
 
   render() {
     const { password, email } = this.state;
+    const {username} = this.props;
     return (
       <div>
         <form className="login-form">
@@ -54,7 +57,8 @@ class Login extends Component {
           <nav>
             <Link
               to={(email && password)?"/interface":'#'}
-                type="submit"
+              type="submit"
+              onClick={ () => username({ email, password }) }
               >
                 {(email && password)?"logar":'    '}
             </Link>
@@ -66,4 +70,8 @@ class Login extends Component {
   }
 }
 
-export default Login
+const mapDispatchToProps = (dispatch) => ({
+  username:(values) => dispatch(userLogin(values)),
+})
+
+export default connect(null,mapDispatchToProps)(Login);
