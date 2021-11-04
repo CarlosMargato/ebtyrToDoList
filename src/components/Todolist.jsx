@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { deleteTasks } from '../actions';
 
 class Todolist extends Component {
   constructor(props){
@@ -12,14 +13,14 @@ class Todolist extends Component {
   }
 
   render() {
-    const { tasksList } = this.props;
+    const { tasksList, deleteOneTask } = this.props;
     return (
       <>
       {
         tasksList.map((item) => {
           return(
             <>
-              <span>Tarefa {item.id+1}:</span>
+              <span >Tarefa {item.id+1}:</span>
               <p>{item.task}</p>
               &nbsp;
               <span>Status:</span>
@@ -27,7 +28,7 @@ class Todolist extends Component {
               &nbsp;
               <button>Editar</button>
               &nbsp;
-              <button>Remover</button>
+              <button type='submit' onClick={() => deleteOneTask(item.id)}>Remover</button>
             </>
           )
         })
@@ -41,4 +42,9 @@ const mapStateToProps = (state) => ({
   tasksList: state.tasks.tasks,
 });
 
-export default connect(mapStateToProps)(Todolist);
+const mapDispatchToProps = (dispatch) => ({
+  deleteOneTask: (key) => dispatch(deleteTasks(key))
+  
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todolist);
