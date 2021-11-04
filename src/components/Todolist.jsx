@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 
 class Todolist extends Component {
   constructor(props){
@@ -11,20 +12,33 @@ class Todolist extends Component {
   }
 
   render() {
-    const { task, status } = this.state;
+    const { tasksList } = this.props;
     return (
       <>
-        <p>
-          <span>Tarefa:</span>
-          <p>{task}</p>
-        </p>
-        <p>
-          <span>Status:</span>
-          <p>{status}</p>
-        </p>
-      </>
+      {
+        tasksList.map((item) => {
+          return(
+            <>
+              <span>Tarefa {item.id+1}:</span>
+              <p>{item.task}</p>
+              &nbsp;
+              <span>Status:</span>
+              <p>{item.status}</p>
+              &nbsp;
+              <button>Editar</button>
+              &nbsp;
+              <button>Remover</button>
+            </>
+          )
+        })
+      }
+    </>
     )
   }
 }
 
-export default Todolist
+const mapStateToProps = (state) => ({
+  tasksList: state.tasks.tasks,
+});
+
+export default connect(mapStateToProps)(Todolist);

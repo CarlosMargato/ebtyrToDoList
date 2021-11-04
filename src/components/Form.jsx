@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { tasksList } from '../actions';
 
 export class Form extends Component {
   constructor(props){
@@ -9,11 +11,24 @@ export class Form extends Component {
       status:"pendente",
     }
     this.typeChecker = this.typeChecker.bind(this);
+    this.clickSend = this.clickSend.bind(this);
   }
 
   typeChecker({ target: { name, value } }) {
     this.setState({
       [name]: value,
+    });
+  }
+
+  clickSend(e) {
+    e.preventDefault();
+    const { id, task, status } = this.state;
+    const { tasksDispatch } = this.props;
+    tasksDispatch({ id, task, status });
+    this.setState({
+      id: id + 1,
+      task:"",
+      status:"pendente",
     });
   }
 
@@ -39,11 +54,15 @@ export class Form extends Component {
               <option value="pronto">pronto</option>
             </select>
           </label>
-          <button id="Salvar" type="submit">Salvar</button>
+          <button id="Salvar" type="submit" onClick = { this.clickSend }>Salvar</button>
         </form>
       </div>
     )
   }
 }
 
-export default Form
+const mapDispatchToProps = (dispatch) => ({
+tasksDispatch: (values) => dispatch(tasksList(values))  
+})
+
+export default connect(null, mapDispatchToProps)(Form)

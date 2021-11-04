@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { userLogin, USERLOGIN } from '../actions/index';
+import { userLogin } from '../actions/index';
 
 class Login extends Component {
   constructor(props) {
